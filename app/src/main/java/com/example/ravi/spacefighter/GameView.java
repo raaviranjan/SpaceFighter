@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ravi on 01-Mar-18.
  */
@@ -28,6 +30,9 @@ public class GameView extends SurfaceView implements Runnable {
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
 
+    //Adding an stars list
+    private ArrayList<Star> stars = new ArrayList<Star>();
+
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
@@ -39,6 +44,13 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
+
+        //adding 100 stars
+        int starNums = 100;
+        for (int i = 0; i < starNums; i++) {
+            Star s  = new Star(screenX, screenY);
+            stars.add(s);
+        }
 
     }
 
@@ -58,6 +70,11 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         //updating player position
         player.update();
+
+        //Updating the stars with player speed
+        for (Star s : stars) {
+            s.update(player.getSpeed());
+        }
     }
 
     private void draw() {
@@ -67,6 +84,16 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = surfaceHolder.lockCanvas();
             //drawing a background color for canvas
             canvas.drawColor(Color.BLACK);
+
+            //setting the paint color to white to draw the stars
+            paint.setColor(Color.WHITE);
+
+            //drawing all stars
+            for (Star s : stars) {
+                paint.setStrokeWidth(s.getStarWidth());
+                canvas.drawPoint(s.getX(), s.getY(), paint);
+            }
+
             //Drawing the player
             canvas.drawBitmap(
                     player.getBitmap(),
@@ -111,7 +138,6 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
                 player.stopBoosting();
-
                 break;
             case MotionEvent.ACTION_DOWN:
                 //When the user releases the screen
