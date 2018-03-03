@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,6 +25,15 @@ public class GameView extends SurfaceView implements Runnable {
 
     //adding the player to this class
     private Player player;
+
+    //Adding enemies object array
+    private Enemy[] enemies;
+
+    //Adding 3 enemies
+    private int enemyCount = 3;
+
+    //defining a boom object to display blast
+    private Boom boom;
 
     //These objects will be used for drawing
     private Paint paint;
@@ -52,6 +62,15 @@ public class GameView extends SurfaceView implements Runnable {
             stars.add(s);
         }
 
+        //initializing enemy object array
+        enemies = new Enemy[enemyCount];
+        for(int i=0; i<enemyCount; i++){
+            enemies[i] = new Enemy(context, screenX, screenY);
+        }
+
+        //initializing boom object
+        boom = new Boom(context);
+
     }
 
     @Override
@@ -71,10 +90,30 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         player.update();
 
+        //setting boom outside the screen
+        boom.setX(-250);
+        boom.setY(-250);
+
         //Updating the stars with player speed
         for (Star s : stars) {
             s.update(player.getSpeed());
         }
+
+        //updating the enemy coordinate with respect to player speed
+        for(int i=0; i<enemyCount; i++){
+            enemies[i].update(player.getSpeed());
+
+            //if collision occurrs with player
+            if (Rect.intersects(player.getDetectCollision(), enemies[i].getDetectCollision())) {
+                //displaying boom at that location
+                boom.setX(enemies[i].getX());
+                boom.setY(enemies[i].getY());
+                //moving enemy outside the left edge
+                enemies[i].setX(-200);
+            }
+        }
+
+
     }
 
     private void draw() {
@@ -100,6 +139,25 @@ public class GameView extends SurfaceView implements Runnable {
                     player.getX(),
                     player.getY(),
                     paint);
+
+            //drawing the enemies
+            for (int i = 0; i < enemyCount; i++) {
+                canvas.drawBitmap(
+                        enemies[i].getBitmap(),
+                        enemies[i].getX(),
+                        enemies[i].getY(),
+                        paint
+                );
+            }
+
+            //drawing boom image
+            canvas.drawBitmap(
+                    boom.getBitmap(),
+                    boom.getX(),
+                    boom.getY(),
+                    paint
+            );
+
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
