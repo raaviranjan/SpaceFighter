@@ -18,7 +18,7 @@ public class Player {
     private int x;
     private int y;
 
-    //motion speed of the character
+    //speed of the character
     private int speed = 0;
 
     //boolean variable to track the ship is boosting or not
@@ -35,6 +35,7 @@ public class Player {
     private final int MIN_SPEED = 1;
     private final int MAX_SPEED = 20;
 
+    //creating a rect object
     private Rect detectCollision;
 
     //constructor
@@ -83,13 +84,12 @@ public class Player {
         if (speed > MAX_SPEED) {
             speed = MAX_SPEED;
         }
-        //if the speed is less than min speed
-        //controlling it so that it won't stop completely
+        //if the speed is less than min speed controlling it so that it won't stop completely
         if (speed < MIN_SPEED) {
             speed = MIN_SPEED;
         }
 
-        //moving the ship down
+        //moving the ship
         y -= speed + GRAVITY;
 
         //but controlling it also so that it won't go off the screen
@@ -107,7 +107,7 @@ public class Player {
         detectCollision.bottom = y + bitmap.getHeight();
     }
 
-    //one more getter for getting the rect object
+    //getting the rect object
     public Rect getDetectCollision() {
         return detectCollision;
     }

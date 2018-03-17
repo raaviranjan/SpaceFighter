@@ -112,8 +112,6 @@ public class GameView extends SurfaceView implements Runnable {
                 enemies[i].setX(-200);
             }
         }
-
-
     }
 
     private void draw() {
@@ -134,29 +132,15 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             //Drawing the player
-            canvas.drawBitmap(
-                    player.getBitmap(),
-                    player.getX(),
-                    player.getY(),
-                    paint);
+            canvas.drawBitmap(player.getBitmap(), player.getX(), player.getY(), paint);
 
             //drawing the enemies
             for (int i = 0; i < enemyCount; i++) {
-                canvas.drawBitmap(
-                        enemies[i].getBitmap(),
-                        enemies[i].getX(),
-                        enemies[i].getY(),
-                        paint
-                );
+                canvas.drawBitmap(enemies[i].getBitmap(), enemies[i].getX(), enemies[i].getY(), paint);
             }
 
             //drawing boom image
-            canvas.drawBitmap(
-                    boom.getBitmap(),
-                    boom.getX(),
-                    boom.getY(),
-                    paint
-            );
+            canvas.drawBitmap(boom.getBitmap(), boom.getX(), boom.getY(), paint);
 
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
@@ -194,11 +178,11 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                //When the user presses on the screen
+                //When the user releases on the screen
                 player.stopBoosting();
                 break;
             case MotionEvent.ACTION_DOWN:
-                //When the user releases the screen
+                //When the user presses the screen
                 player.setBoosting();
                 break;
         }

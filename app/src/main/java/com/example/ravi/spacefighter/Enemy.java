@@ -12,9 +12,7 @@ import java.util.Random;
  */
 
 public class Enemy {
-
     //bitmap for the enemy
-    //we have already pasted the bitmap in the drawable folder
     private Bitmap bitmap;
 
     //x and y coordinates
@@ -40,7 +38,7 @@ public class Enemy {
 
         //initializing min and max coordinates
         maxX = screenX;
-        maxY = screenY- bitmap.getHeight();
+        maxY = screenY;
         minX = 0;
         minY = 0;
 
@@ -48,7 +46,9 @@ public class Enemy {
         Random generator = new Random();
         speed = generator.nextInt(6) + 10;
         x = screenX;
-        y = generator.nextInt(maxY);
+        y = generator.nextInt(maxY)- bitmap.getHeight();
+        if(y<bitmap.getHeight())
+            y=0;
 
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
@@ -65,7 +65,9 @@ public class Enemy {
             Random generator = new Random();
             speed = generator.nextInt(10) + 10;
             x = maxX;
-            y = generator.nextInt(maxY);
+            y = generator.nextInt(maxY)- bitmap.getHeight();
+            if(y<bitmap.getHeight())
+                y=0;
         }
 
         //Adding the top, left, bottom and right to the rect object
@@ -80,7 +82,7 @@ public class Enemy {
         this.x = x;
     }
 
-    //one more getter for getting the rect object
+    //getter for getting the rect object
     public Rect getDetectCollision() {
         return detectCollision;
     }

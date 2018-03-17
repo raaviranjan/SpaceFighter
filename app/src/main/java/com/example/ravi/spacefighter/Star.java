@@ -16,8 +16,6 @@ public class Star {
     private int minX;
     private int minY;
 
-
-
     public Star(int screenX, int screenY) {
         maxX = screenX;
         maxY = screenY;
@@ -37,8 +35,7 @@ public class Star {
         x -= speed;
         //if the star reached the left edge of the screen
         if (x < 0) {
-            //again starting the star from right edge
-            //this will give a infinite scrolling background effect
+            //again starting the star from right edge, this will give a infinite scrolling background effect
             x = maxX;
             Random generator = new Random();
             y = generator.nextInt(maxY);
@@ -51,7 +48,7 @@ public class Star {
         float minX = 1.0f;
         float maxX = 4.0f;
         Random rand = new Random();
-        float finalX = rand.nextFloat() * (maxX - minX) + minX;
+        float finalX = rand.nextFloat() * (maxX - minX) + minX;//0.0<rand.nextFloat<1.0
         return finalX;
     }
 
