@@ -1,5 +1,6 @@
 package com.example.ravi.spacefighter;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
@@ -40,5 +41,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.resume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        GameView.stopMusic();
+        finish();
     }
 }
